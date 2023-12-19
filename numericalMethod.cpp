@@ -27,6 +27,7 @@ void Bisection()
     float a, b, c;
     float root;
     int count = 1;
+    string line = "  ________________________________________________________________________________________________________\n";
     while (true)
     {
         clear();
@@ -42,7 +43,9 @@ void Bisection()
             break;
     }
     clear();
-    cout << left << setw(format) << "Iteration"
+    cout << line;
+    cout << left
+         << " | " << setw(format) << "Iteration"
          << " | " << setw(format) << "a"
          << " | " << setw(format) << "b"
          << " | " << setw(format) << "c=(a+b)/2"
@@ -50,15 +53,16 @@ void Bisection()
          << " | " << setw(format) << "f(b)"
          << " | " << setw(format) << "f(c)"
          << " | ";
-    cout << "\n______________________________________________________________________________________________________\n";
+    cout << "\n"
+         << line;
 
     while (true)
     {
         c = (a + b) / 2;
         float funcA = function(a), funcB = function(b), funcC = function(c);
-        cout << left << setw(format) << count << " | " << fixed << setprecision(5) << setw(format) << setw(format) << a << " | " << setw(format) << b << " | " << setw(format) << c << " | " << setw(format) << funcA << " | " << setw(format) << funcB << " | " << setw(format) << funcC << " | " << endl;
+        cout << " | " << left << setw(format) << count << " | " << fixed << setprecision(5) << setw(format) << setw(format) << a << " | " << setw(format) << b << " | " << setw(format) << c << " | " << setw(format) << funcA << " | " << setw(format) << funcB << " | " << setw(format) << funcC << " | " << endl;
 
-        if (abs(c - b) <= tolerance)
+        if (abs(c - a) <= tolerance)
         {
             root = a;
             break;
@@ -75,15 +79,70 @@ void Bisection()
         else
             a = c;
     }
-    cout << "______________________________________________________________________________________________________\n";
+    cout << line;
 
     cout << "The root is " << setprecision(3) << root << endl;
     getchar();
 }
 //?======================================================================================
-void Secant(){
-    
+void Secant()
+{
+    int format = 20;
+    float tolerance = 0.001;
+    float x0, x1, x2;
+    float root;
+    string line = "  _________________________________________________________________________________________________________________________________________________________________\n";
+    int count = 1;
+    while (true)
+    {
+        clear();
+        cout << "Give two initial guesses that may enclose the root: " << endl;
+        cin >> x0 >> x1;
+        if ((function(x0) * function(x1)) > 0)
+        {
+            cout << "The given values do not enclose the root.\nPlease try again!!" << endl;
+            getchar();
+            continue;
+        }
+        else
+            break;
+    }
+    clear();
+    cout << line;
+    cout << left
+         << " | " << setw(format) << "Iteration"
+         << " | " << setw(format) << "x0"
+         << " | " << setw(format) << "x1"
+         << " | " << setw(format) << "x2=x1-...."
+         << " | " << setw(format) << "f(x0)"
+         << " | " << setw(format) << "f(x1)"
+         << " | " << setw(format) << "f(x2)"
+         << " | ";
+    cout << "\n " << line;
+    while (true)
+    {
+        x2 = x1 - (function(x1) * (x0 - x1)) / (function(x0) - function(x1));
+        float funcX0 = function(x0), funcX1 = function(x1), funcX2 = function(x2);
+        cout << " | " << left << setw(format) << count << " | " << fixed << setprecision(5) << setw(format) << setw(format) << x0 << " | " << setw(format) << x1 << " | " << setw(format) << x2 << " | " << setw(format) << funcX0 << " | " << setw(format) << funcX1 << " | " << setw(format) << funcX2 << " | " << endl;
+        if (abs(x2 - x0) <= tolerance || abs(x2 - x1) <= tolerance)
+        {
+            root = x2;
+            break;
+        }
+        //----------------------------
+        count++;
+        //-------------------------
+        if (funcX0 * funcX2 < 0)
+            x1 = x2;
+        else
+            x0 = x2;
+        //-------------------------
+    }
+    cout << line;
+    cout << "The root is " << setprecision(3) << root << endl;
+    getchar();
 }
+
 //?======================================================================================
 
 //* Displays the menu!
@@ -110,7 +169,7 @@ int menu()
         break;
     case 2:
         clear();
-        cout << "Secant Method" << endl;
+        Secant();
         getchar();
         break;
 
