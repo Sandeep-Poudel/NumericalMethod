@@ -32,6 +32,6 @@ To use the bisection and secant methods, follow these steps:
 
 Here is a video demonstrating the usage of the project: 
 ------------------
-[![Video Demo]](video.gif)
+![Video Demo](video.gif)
 
 
