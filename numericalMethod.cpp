@@ -4,6 +4,7 @@
 #include <iomanip>
 #include <limits>
 using namespace std;
+static int ready;
 
 //?====================================================================================
 void flush()
@@ -28,17 +29,16 @@ float useFunction(float data, bool configure = false)
             {
                 continue;
             }
-
             cout << "Enter the coefficients in order of decreasing term power:" << endl;
             for (int i = order; i >= 0; i--)
             {
                 cin >> coefficient[i];
             }
-            cout << "Polynomial useFunction configured! You can use all the useFunctions now!!" << endl;
+            cout << "Polynomial Function configured! You can use all the useFunctions now!!" << endl;
+            ready = 1;
             getchar();
             return 0;
         }
-
         else
         {
             for (int i = order; i >= 1; i--)
@@ -63,14 +63,22 @@ void clear()
 void Bisection()
 {
     int format = 12;
-    float tolerance = 0.001;
+    float tolerance = 0.0001;
     float a, b, c;
     float root;
     int count = 1;
     string line = "  ________________________________________________________________________________________________________\n";
+
     while (true)
     {
         clear();
+        if (!ready)
+        {
+            cout << "You havent configured the function yet! please configure it before using this method!" << endl;
+            flush();
+            getchar();
+            return;
+        }
         cout << "Give two initial guesses that may enclose the root: " << endl;
         cin >> a >> b;
         cout << useFunction(a) << "\t" << useFunction(b) << endl;
@@ -130,7 +138,7 @@ void Bisection()
 void Secant()
 {
     int format = 20;
-    float tolerance = 0.001;
+    float tolerance = 0.0001;
     float x0, x1, x2;
     float root;
     string line = "  _________________________________________________________________________________________________________________________________________________________________\n";
@@ -138,6 +146,13 @@ void Secant()
     while (true)
     {
         clear();
+        if(! ready)
+        {
+            cout << "You havent configured the function yet! please configure it before using this method!" << endl;
+            flush();
+            getchar();
+            return;
+        }
         cout << "Give two initial guesses that may enclose the root: " << endl;
         cin >> x0 >> x1;
         flush();
@@ -231,6 +246,7 @@ int menu()
 
 int main()
 {
+
     while (true)
     {
         menu();
